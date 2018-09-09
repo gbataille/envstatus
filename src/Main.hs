@@ -4,15 +4,19 @@ import Control.Monad (unless)
 import System.Environment (getArgs)
 import System.Exit (exitSuccess)
 
+import EnvStatus.Config (getAppConfig, showConfig)
 import EnvStatus.Output.Types
 
 main :: IO ()
 main = do
-    args <- getArgs
-    validateArgs args
-    let shell = (read . head $ args)::OutputFormat
-    print shell
-    putStrLn "done"
+  -- Args
+  args <- getArgs
+  validateArgs args
+  let shell = (read . head $ args)::OutputFormat
+  -- Config
+  cp <- getAppConfig
+  -- Output result
+  putStrLn $ showConfig cp
 
 validateArgs :: [String] -> IO ()
 validateArgs args =
