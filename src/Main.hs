@@ -7,6 +7,7 @@ import System.Exit (exitSuccess)
 
 import EnvStatus.Config (getAppConfig, getConfigValue)
 import EnvStatus.Output.Parse
+import EnvStatus.Output.Render (renderTokenString)
 
 main :: IO ()
 main = do
@@ -18,7 +19,7 @@ main = do
   cp <- getAppConfig
   let tokens = parseOutputFormat $ fromMaybe "" $ getConfigValue cp "output_template"
   -- Output result
-  putStrLn $ showConfig cp
+  putStrLn $ renderTokenString cp tokens
 
 validateArgs :: [String] -> IO ()
 validateArgs args =

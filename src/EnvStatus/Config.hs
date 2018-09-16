@@ -28,7 +28,7 @@ defaultConfig =
       Right config -> config
       Left _error -> emptyCP
       where
-        defaultC = set emptyCP "DEFAULT" "output_template" "envstatus: {{   foo}} %a %d %b %G %H:%M"
+        defaultC = set emptyCP "DEFAULT" "output_template" "\nenvstatus: {{   foo}} %a %d %b %G %H:%M"
 
 getAppConfig :: IO ConfigParser
 getAppConfig = do

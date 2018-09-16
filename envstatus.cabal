@@ -19,6 +19,7 @@ executable envstatus
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N -Wall
   other-modules:       EnvStatus.Config
                      , EnvStatus.Output.Parse
+                     , EnvStatus.Output.Render
                      , EnvStatus.Output.Types
   -- other-extensions:
   build-depends:       base >=4.11 && <4.12
