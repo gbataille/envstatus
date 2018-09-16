@@ -9,3 +9,5 @@ instance Read OutputFormat where
         "tmux" -> return (TMUX, "")
         "none" -> return (NONE, "")
         _ -> return (Other, "")
+
+data Token = Raw String | SubCommand String deriving (Show)

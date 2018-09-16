@@ -1,20 +1,22 @@
 module Main where
 
 import Control.Monad (unless)
+import Data.Maybe (fromMaybe)
 import System.Environment (getArgs)
 import System.Exit (exitSuccess)
 
-import EnvStatus.Config (getAppConfig, showConfig)
-import EnvStatus.Output.Types
+import EnvStatus.Config (getAppConfig, getConfigValue)
+import EnvStatus.Output.Parse
 
 main :: IO ()
 main = do
   -- Args
   args <- getArgs
   validateArgs args
-  let shell = (read . head $ args)::OutputFormat
+  -- let shell = (read . head $ args)::OutputFormat
   -- Config
   cp <- getAppConfig
+  let tokens = parseOutputFormat $ fromMaybe "" $ getConfigValue cp "output_template"
   -- Output result
   putStrLn $ showConfig cp
 

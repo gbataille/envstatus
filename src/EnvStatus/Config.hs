@@ -28,9 +28,7 @@ defaultConfig =
       Right config -> config
       Left _error -> emptyCP
       where
-        defaultC = do
-          let cp = emptyCP
-          set cp "DEFAULT" "output_template" "envstatus: %a %d %b %G %H:%M"
+        defaultC = set emptyCP "DEFAULT" "output_template" "envstatus: {{   foo}} %a %d %b %G %H:%M"
 
 getAppConfig :: IO ConfigParser
 getAppConfig = do
