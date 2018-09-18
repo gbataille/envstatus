@@ -1,12 +1,11 @@
 import Test.Tasty
-import Test.Tasty.HUnit
+
+import Test.EnvStatus.Config (configTests)
 
 main :: IO ()
 main = defaultMain tests
 
 tests :: TestTree
 tests = testGroup "Tests"
-  [ dummyTest
+  [ configTests
   ]
-
-dummyTest = testCase "Dummy" $ show 1 @?= "1"
