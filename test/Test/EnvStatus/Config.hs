@@ -4,22 +4,16 @@ module Test.EnvStatus.Config (configTests) where
 import Data.ConfigFile (emptyCP, get, to_string)
 import Data.Either
 import PyF
-import System.IO.Unsafe
 
 import Test.Tasty
 import Test.Tasty.Hspec
 
 import EnvStatus.Config
 
-
-configTests :: TestTree
-configTests = testGroup "Config Tests"
-  [ testReadConfig
-  ]
-
-testReadConfig :: TestTree
-testReadConfig = unsafePerformIO $
+configTests :: IO TestTree
+configTests =
   testSpec "Config Tests" $ do
+
     describe "#readConfig" $ do
       it "returns an empty config when there is a parser error" $ do
         cp <- readConfig "[Section]text"
