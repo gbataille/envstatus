@@ -43,7 +43,7 @@ test-suite envstatus-test
   main-is:            Spec.hs
   build-depends:      base
                     , tasty >= 1.1 && < 1.2
-                    , tasty-hunit >= 0.10 && < 0.11
+                    , tasty-hspec >= 1.1 && < 1.2
                     , ConfigFile >= 1.1 && <1.2
                     , PyF >= 0.6 && <0.7
                     , envstatus
