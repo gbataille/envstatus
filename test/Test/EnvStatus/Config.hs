@@ -4,6 +4,7 @@ module Test.EnvStatus.Config (configTests) where
 
 import Data.ConfigFile (emptyCP, get, to_string, ConfigParser)
 import Data.Either
+import Data.Maybe
 import PyF
 
 import Test.Tasty
@@ -52,3 +53,7 @@ configTests =
 
         it "returns nothing for keys inside sections" $ \cp -> do
           getConfigValue cp sectionKey `shouldBe` Nothing
+
+    describe "#defaultConfig" $ do
+      it "contains an output_template field" $ do
+          getConfigValue defaultConfig "output_template" `shouldSatisfy` isJust
