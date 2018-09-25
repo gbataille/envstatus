@@ -67,3 +67,17 @@ parseTests =
         let someString = "raw string {{foo bar}} and more"
         parse outputFormatParser "" someString `shouldBe`
           Right [Raw "raw string ", SubCommand "foo bar", Raw " and more"]
+
+    describe "#parseOutputFormat" $ do
+      it "parses a proper templated string" $ do
+        let someString = "raw string {{foo bar}} and more"
+        parseOutputFormat someString `shouldBe`
+          [Raw "raw string ", SubCommand "foo bar", Raw " and more"]
+
+      it "handles newline" $ do
+        let someString = "raw string {{foo bar}}\n and more"
+        parseOutputFormat someString `shouldBe`
+          [Raw "raw string ", SubCommand "foo bar", Raw "\n and more"]
+
+      it "handles empty strings and returns an empty Token list" $ do
+        parseOutputFormat "" `shouldBe` []
