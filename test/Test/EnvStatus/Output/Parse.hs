@@ -61,3 +61,9 @@ parseTests =
         it "does not parse 2 consecutive opening curly braces" $ \parser -> do
           let someString = "{{"
           parse parser "" someString `shouldSatisfy` isLeft
+
+    describe "#outputFormatParser" $ do
+      it "parses a proper templated string" $ do
+        let someString = "raw string {{foo bar}} and more"
+        parse outputFormatParser "" someString `shouldBe`
+          Right [Raw "raw string ", SubCommand "foo bar", Raw " and more"]
