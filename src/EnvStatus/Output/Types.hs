@@ -10,4 +10,4 @@ instance Read OutputFormat where
         "none" -> return (NONE, "")
         _ -> return (Other, "")
 
-data Token = Raw String | SubCommand String deriving (Show)
+data Token = Raw String | SubCommand String deriving (Show, Eq)

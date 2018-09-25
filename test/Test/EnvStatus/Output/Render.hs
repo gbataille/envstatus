@@ -10,7 +10,7 @@ import EnvStatus.Output.Render
 
 renderTests :: IO TestTree
 renderTests =
-  testSpec "Render Tests" $ do
+  testSpec "EnvStatus.Output.Render Tests" $ do
 
     describe "#strip" $ do
       it "returns the untouched string if no spaces" $ do
