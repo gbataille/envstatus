@@ -1,5 +1,6 @@
 module Test.EnvStatus.Output.Parse (parseTests) where
 
+import Data.Either (isLeft)
 import Test.Tasty
 import Test.Tasty.Hspec
 import Text.Parsec (parse)
@@ -30,3 +31,20 @@ parseTests =
       xit "parses string with a double opening curly brace with no closing" $ do
         let someString = "foo bar %#!()[] {{nhutoe dd"
         parse rawParser "" someString `shouldBe` Right (Raw someString)
+
+    describe "#commandParser" $ do
+      it "parses commands surrounded by curly braces" $ do
+        let someString = "{{foo bar}}"
+        parse commandParser "" someString `shouldBe` Right (SubCommand "foo bar")
+
+      it "does not parse things with a single opening curly brace" $ do
+        let someString = "{foo bar}}"
+        parse commandParser "" someString `shouldSatisfy` isLeft
+
+      it "does not parse things with a single closing curly brace" $ do
+        let someString = "{{foo bar}"
+        parse commandParser "" someString `shouldSatisfy` isLeft
+
+      it "does not parse things with a no closing curly brace" $ do
+        let someString = "{{foo bar"
+        parse commandParser "" someString `shouldSatisfy` isLeft
