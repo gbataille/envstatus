@@ -1,9 +1,11 @@
 module Test.EnvStatus.Output.Parse (parseTests) where
 
+import Control.Applicative ((<*))
 import Data.Either (isLeft)
 import Test.Tasty
 import Test.Tasty.Hspec
-import Text.Parsec (parse)
+import Text.Parsec (parse, try)
+import Text.Parsec.Char (anyChar)
 
 import EnvStatus.Output.Parse
 import EnvStatus.Output.Types
@@ -48,3 +50,14 @@ parseTests =
       it "does not parse things with a no closing curly brace" $ do
         let someString = "{{foo bar"
         parse commandParser "" someString `shouldSatisfy` isLeft
+
+    describe "#singleOpenCurly" $ do
+      before (pure $ singleOpenCurly <* try anyChar) $ do
+
+        it "parses a single opening curly brace" $ \parser -> do
+          let someString = "{x"
+          parse parser "" someString `shouldBe` Right '{'
+
+        it "does not parse 2 consecutive opening curly braces" $ \parser -> do
+          let someString = "{{"
+          parse parser "" someString `shouldSatisfy` isLeft
