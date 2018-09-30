@@ -2,24 +2,29 @@ module EnvStatus.Output.Render where
 
 import Control.Applicative ((<$>))
 import Data.ConfigFile (ConfigParser)
-import Data.Maybe (fromMaybe)
+import Data.Maybe (fromMaybe, isJust)
 
 import EnvStatus.Config
 import EnvStatus.Output.Types
+import EnvStatus.Process
 
 strip :: String -> String
 strip s = reverse $ removeSpace $ reverse $ removeSpace s
   where
     removeSpace :: String -> String
     removeSpace (' ':rest) = removeSpace rest
+    removeSpace ('\n':rest) = removeSpace rest
     removeSpace noSpaces = noSpaces
 
-renderTokenString :: ConfigParser -> [Token] -> String
-renderTokenString cp tokens = concat $ renderToken cp <$> tokens
+renderTokenString :: ConfigParser -> [Token] -> IO String
+renderTokenString cp tokens = do
+  results <- sequence $ renderToken cp <$> tokens
+  return $ unwords results
 
-renderToken :: ConfigParser -> Token -> String
-renderToken _ (Raw s) = "R(" ++ s ++ ")"
-renderToken cp (SubCommand c) =
-  fromMaybe (" #!# Not Configured: " ++ sc ++ " #!# ") $ getConfigValue cp sc
-    where
-      sc = strip c
+renderToken :: ConfigParser -> Token -> IO String
+renderToken _ (Raw s) = pure s
+renderToken cp (SubCommand c) = do
+  let cmd = getConfigValue cp $ strip c
+  if isJust cmd
+    then strip <$> runCommandAsync (fromMaybe "" cmd)
+    else return ("### Command not found for config key " ++ c ++ " ###")

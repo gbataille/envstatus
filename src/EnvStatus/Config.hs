@@ -28,7 +28,10 @@ defaultConfig =
       Right config -> config
       Left _error -> emptyCP
       where
-        defaultC = set emptyCP "DEFAULT" "output_template" "\nenvstatus: %a %d %b %G %H:%M"
+        -- TODO: gbataille - change the default to something reasonable
+        defaultC = do
+          cp <- set emptyCP "DEFAULT" "output_template" "\nenvstatus: %a %d %b %G %H:%M {{foo}} abc"
+          set cp "DEFAULT" "foo" "date"
 
 getAppConfig :: IO ConfigParser
 getAppConfig = do

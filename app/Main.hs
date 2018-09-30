@@ -19,7 +19,8 @@ main = do
   cp <- getAppConfig
   let tokens = parseOutputFormat $ fromMaybe "" $ getConfigValue cp "output_template"
   -- Output result
-  putStrLn $ renderTokenString cp tokens
+  result <- renderTokenString cp tokens
+  putStrLn result
 
 validateArgs :: [String] -> IO ()
 validateArgs args =

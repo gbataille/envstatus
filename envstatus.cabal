@@ -3,7 +3,6 @@ version:             0.1.0.0
 synopsis:            Display efficiently the state of the local environment
 description:         Meant to gather in a fast manner all the information you want from your local
                      environment (like git status, python venv, terraform workspace, ...).
-                     Can be displayed in a prompt compatible format
 license:             MIT
 license-file:        LICENSE
 author:              Grégory Bataille
@@ -20,12 +19,14 @@ library
                      , EnvStatus.Output.Parse
                      , EnvStatus.Output.Render
                      , EnvStatus.Output.Types
+                     , EnvStatus.Process
   -- other-extensions:
   build-depends:       base >=4.11 && <4.12
                      , ConfigFile >= 1.1 && <1.2
                      , mtl >= 2.2 && <2.3
                      , parsec >= 3.1 && < 3.2
-                     , unix >= 2.7 && < 2.8
+                     , process
+                     , unix >= 2.7 && < 3
   default-language:   Haskell2010
   ghc-options:        -Wall
 

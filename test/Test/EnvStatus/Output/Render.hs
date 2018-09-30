@@ -24,3 +24,12 @@ renderTests =
 
       it "returns the string without surrounding spaces" $ do
         strip "    foobar  " `shouldBe` "foobar"
+
+      it "returns the string without leading newlines" $ do
+        strip "\nfoobar" `shouldBe` "foobar"
+
+      it "returns the string without trailing newlines" $ do
+        strip "foobar\n\n" `shouldBe` "foobar"
+
+      it "returns the string without surrounding newlines" $ do
+        strip "\n\nfoobar\n" `shouldBe` "foobar"
