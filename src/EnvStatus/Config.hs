@@ -30,8 +30,8 @@ defaultConfig =
       where
         -- TODO: gbataille - change the default to something reasonable
         defaultC = do
-          cp <- set emptyCP "DEFAULT" "output_template" "\nenvstatus: %a %d %b %G %H:%M {{foo}} abc"
-          set cp "DEFAULT" "foo" "date"
+          cp <- set emptyCP "DEFAULT" "output_template" "\nenvstatus: {{foo}}"
+          set cp "DEFAULT" "foo" "date +%Y-%m-%d"
 
 getAppConfig :: IO ConfigParser
 getAppConfig = do
