@@ -1,0 +1,12 @@
+# For multiline strings, just go to the line and indent the content. If there are several lines,
+# make sure the indentation is consintent. It will be stripped in the produced output.
+# TEMPLATE
+output_template: venv: {{virtualenv}}
+   rvm: {{rvm}}
+   nvm: {{nvm}}
+   Terraform: {{tf}}
+# COMMANDS
+virtualenv: bash -c "echo $VIRTUAL_ENV"
+rvm: bash -c "echo $RUBY_VERSION"
+nvm: node --version
+tf: terraform workspace show

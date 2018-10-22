@@ -81,3 +81,78 @@ parseTests =
 
       it "handles empty strings and returns an empty Token list" $ do
         parseOutputFormat "" `shouldBe` []
+
+    describe "#quotedOption" $ do
+      it "parses a double quoted string" $ do
+        let someString = "a double quoted string"
+        let quotedString = "\"" ++ someString ++ "\""
+        parse quotedOption "" quotedString `shouldBe` Right someString
+
+      it "does not parse a double quoted string preceded by text" $ do
+        let someString = "a double quoted string"
+        let quotedString = "foo bar \"" ++ someString ++ "\""
+        parse quotedOption "" quotedString `shouldSatisfy` isLeft
+
+      it "parses a double quoted string followed by text and stops at the closing quote" $ do
+        let someString = "a double quoted string"
+        let quotedString = "\"" ++ someString ++ "\" foo bar"
+        parse quotedOption "" quotedString `shouldBe` Right someString
+
+      it "does not parse a non close double quote chain" $ do
+        let someString = "a double quoted string"
+        let quotedString = "\"" ++ someString
+        parse quotedOption "" quotedString `shouldSatisfy` isLeft
+
+    describe "#separator" $ do
+      it "parses space" $ do
+        let char = ' '
+        parse separator "" [char] `shouldBe` Right char
+
+      it "parses tab" $ do
+        let char = '\t'
+        parse separator "" [char] `shouldBe` Right char
+
+      it "parses cr" $ do
+        let char = '\n'
+        parse separator "" [char] `shouldBe` Right char
+
+      it "parses lf" $ do
+        let char = '\r'
+        parse separator "" [char] `shouldBe` Right char
+
+      it "does not parse standard string" $ do
+        parse separator "" "a" `shouldSatisfy` isLeft
+
+    describe "#word" $ do
+      it "parses any non-separator based string" $ do
+        let someString = "foobar"
+        parse word "" someString `shouldBe` Right someString
+
+      it "parses string until first separator" $ do
+        let someString = "foobar"
+        parse word "" someString `shouldBe` Right someString
+
+        parse word "" (someString ++ " toto") `shouldBe` Right someString
+
+        parse word "" (someString ++ "\tfoobar") `shouldBe` Right someString
+
+        parse word "" (someString ++ "\n") `shouldBe` Right someString
+
+    describe "#commandPart" $ do
+      it "parses simple strings" $ do
+        let someString = "foobar"
+        parse commandPart "" someString `shouldBe` Right someString
+
+      it "parses words individually" $ do
+        let someString = "foobar"
+        parse commandPart "" (someString ++ " barbaz") `shouldBe` Right someString
+
+      it "parses double quoted section as a whole" $ do
+        let someString = "foobar barbaz"
+        parse commandPart "" ("\"" ++ someString ++ "\" something else") `shouldBe` Right someString
+
+    describe "#parseCommand" $ do
+      it "parses blocks properly" $ do
+        let someString = " echo -n \"hello world\"  \n"
+
+        parseCommand someString `shouldBe` ["echo", "-n", "hello world"]

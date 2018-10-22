@@ -14,7 +14,6 @@ main = do
   -- Args
   args <- getArgs
   validateArgs args
-  -- let shell = (read . head $ args)::OutputFormat
   -- Config
   cp <- getAppConfig
   let tokens = parseOutputFormat $ fromMaybe "" $ getConfigValue cp "output_template"
@@ -44,9 +43,4 @@ printHelp = putStrLn $
           , ""
           , "OPTIONS:"
           , "  --help            Displays this help"
-          , ""
-          , "  zsh               Outputs the environment details, using zsh PROMPT escape characters"
-          , "  bash              Outputs the environment details, using bash PROMPT escape characters"
-          , "  tmux              Outputs the environment details, using tmux PROMPT escape characters"
-          , "  none              Outputs the environment details, using no escape characters (no color support)"
           ]

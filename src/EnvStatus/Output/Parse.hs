@@ -1,7 +1,9 @@
 module EnvStatus.Output.Parse where
 
+import Data.Functor (($>))
+import Data.List (delete)
 import Text.Parsec (many, parse, try)
-import Text.Parsec.Char (anyChar, char, noneOf, string)
+import Text.Parsec.Char (anyChar, char, noneOf, oneOf, string)
 import Text.Parsec.Combinator (choice, eof, manyTill, notFollowedBy)
 import Text.Parsec.Prim ((<|>), (<?>))
 import Text.Parsec.String (Parser)
@@ -43,3 +45,33 @@ commandParser = do
 outputFormatParser :: Parser [Token]
 outputFormatParser =
   manyTill tokenParser eof
+
+-- Parser of commands ~ words but keeping the quoted parts together
+quotedOption :: Parser String
+quotedOption = do
+  _ <- char '"'
+  manyTill anyChar (char '"')
+
+
+separator :: Parser Char
+separator = oneOf [' ', '\t', '\n', '\r']
+
+skipSeparator :: Parser ()
+skipSeparator = separator $> ()
+
+word :: Parser String
+word = do
+  _ <- many separator
+  manyTill anyChar (try skipSeparator <|> eof)
+
+commandPart :: Parser String
+commandPart = try quotedOption <|> word
+
+parseCommand :: String -> [String]
+parseCommand cmd =
+  case parsed of
+      -- Removes the potential last match "" if the command ended with separators
+      Right matches -> delete "" matches
+      Left _ -> [""]
+      where
+        parsed = parse (manyTill commandPart eof) "" cmd
