@@ -2,6 +2,7 @@
 # make sure the indentation is consintent. It will be stripped in the produced output.
 # TEMPLATE
 output_template: venv: {{virtualenv}}
+   python: {{python}}
    rvm: {{rvm}}
    nvm: {{nvm}}
    Terraform: {{tf}}
@@ -10,3 +11,4 @@ virtualenv: bash -c "echo $VIRTUAL_ENV"
 rvm: bash -c "echo $RUBY_VERSION"
 nvm: node --version
 tf: terraform workspace show
+python: python --version
