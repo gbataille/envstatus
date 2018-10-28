@@ -1,5 +1,5 @@
 name:                envstatus
-version:             0.1.0.0
+version:             1.0.0
 synopsis:            Display efficiently the state of the local environment
 description:         Meant to gather in a fast manner all the information you want from your local
                      environment (like git status, python venv, terraform workspace, ...).
