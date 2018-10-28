@@ -1,6 +1,7 @@
 module EnvStatus.Output.Render where
 
 import Control.Applicative ((<$>))
+import Control.Monad (join)
 import Data.ConfigFile (ConfigParser)
 import Data.Maybe (fromMaybe, isJust)
 
@@ -19,7 +20,7 @@ strip s = reverse $ removeSpace $ reverse $ removeSpace s
 renderTokenString :: ConfigParser -> [Token] -> IO String
 renderTokenString cp tokens = do
   results <- sequence $ renderToken cp <$> tokens
-  return $ unwords results
+  return $ join results
 
 renderToken :: ConfigParser -> Token -> IO String
 renderToken _ (Raw s) = pure s
