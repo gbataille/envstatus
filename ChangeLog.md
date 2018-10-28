@@ -1,5 +1,11 @@
-# Revision history for Envstatus
+# Changelog
 
-## 0.1.0.0 -- YYYY-mm-dd
+## 1.0.2
 
-* First version. Released on an unsuspecting world.
+### Bugfixes
+
+* Fixes [#8](https://github.com/gbataille/envstatus/issues/8)
+
+## 1.0.0
+
+* First version.
