@@ -5,12 +5,13 @@ module Test.EnvStatus.Config (configTests) where
 import Data.ConfigFile (emptyCP, get, to_string, ConfigParser)
 import Data.Either
 import Data.Maybe
-import PyF
+import PyF hiding (defaultConfig)
 
 import Test.Tasty
 import Test.Tasty.Hspec
 
 import EnvStatus.Config
+import Test.Hspec
 
 -- HLint config have to be put after the imports
 {-# ANN module "HLint: ignore Redundant do" #-}
@@ -21,7 +22,7 @@ sectionName = "Section"
 sectionKey = "k2"
 sectionValue = "v2"
 
-dummyConfigString = [fString|{defaultKey}: {defaultValue}\n[{sectionName}]\n{sectionKey}: {sectionValue}|]
+dummyConfigString = [fmt|{defaultKey}: {defaultValue}\n[{sectionName}]\n{sectionKey}: {sectionValue}|]
 
 dummyConfig :: IO ConfigParser
 dummyConfig = readConfig dummyConfigString

@@ -1,11 +1,11 @@
 module Test.EnvStatus.Output.Parse (parseTests) where
 
-import Control.Applicative ((<*))
 import Data.Either (isLeft)
 import Test.Tasty
 import Test.Tasty.Hspec
 import Text.Parsec (parse, try)
 import Text.Parsec.Char (anyChar)
+import Test.Hspec
 
 import EnvStatus.Output.Parse
 import EnvStatus.Output.Types

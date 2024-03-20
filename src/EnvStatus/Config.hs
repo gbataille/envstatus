@@ -1,7 +1,7 @@
 module EnvStatus.Config where
 
 import System.Posix.Files (fileExist)
-import System.Posix.User (getRealUserID, getUserEntryForID, UserEntry(..))
+import System.Posix.User
 
 import Data.ConfigFile (ConfigParser, readstring, emptyCP, get, set, merge, to_string)
 
