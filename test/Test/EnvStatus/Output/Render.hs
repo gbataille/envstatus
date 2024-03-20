@@ -4,6 +4,7 @@ import Test.Tasty
 import Test.Tasty.Hspec
 
 import EnvStatus.Output.Render
+import Test.Hspec
 
 -- HLint config have to be put after the imports
 {-# ANN module "HLint: ignore Redundant do" #-}
